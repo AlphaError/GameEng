@@ -351,6 +351,7 @@
 "Assets/Scripts/followPlayer.cs"
 "Assets/Scripts/newLevel.cs"
 "Assets/Scripts/playerMove.cs"
+"Assets/Scripts/playerMove2.cs"
 -langversion:9.0
 
 /deterministic

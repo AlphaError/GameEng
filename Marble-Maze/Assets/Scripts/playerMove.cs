@@ -4,31 +4,43 @@ using UnityEngine;
 
 public class playerMove : MonoBehaviour
 {
-	int playerSpeed = 10;
+	int playerSpeed = 280;
 	Rigidbody _rigidBody;
+    Vector3 startPos;
+    Vector3 startScale;
+    float etime = 0f;
 
     // Start is called before the first frame update
     private void Start()
     {
     	_rigidBody = GetComponent<Rigidbody>();
+        startPos = transform.position;
+        startScale = transform.localScale;
     }
 
     // Update is called once per frame
+    private void Update(){
+        etime += Time.deltaTime;
+    }
     private void FixedUpdate()
     {
+        // add wasd movement
         float zSpeed = Input.GetAxis("Vertical") * playerSpeed;
         float xSpeed = Input.GetAxis("Horizontal") * playerSpeed;
         float ySpeed = 0f;
 
         Vector3 add_vec = new Vector3(xSpeed, ySpeed, zSpeed);
         _rigidBody.AddForce(add_vec);
-        Debug.Log("Added Vector:" + add_vec);
+        // Debug.Log("Added Vector:" + add_vec.ToString());
 
-        // if over time limit:
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        
-        // Note: maybe skrink the player scaling with time --> coroutine time.time?
-        // transform.scale *= 1/time.time;
+        // Timer mechanic
+        transform.localScale *= 1f - (etime/20000f);
+        // Debug.Log("Scale: " + transform.localScale.ToString() + ", Time: " + etime.ToString());
+        if (transform.localScale.x <= 1){
+            transform.localScale = startScale;  // reset player if too small
+            transform.position = startPos;
+            // TODO: change color over time
+        }
         // transform.rotation (forces  = addTorque)
     }
 }
